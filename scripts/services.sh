@@ -8,7 +8,7 @@ brew install redis
 brew install ruby
 
 # nvm
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | $
+curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 source ~/.zshrc
 nvm install 0.12
 nvm install 4
