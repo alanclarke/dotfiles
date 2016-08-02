@@ -25,6 +25,19 @@ defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 # Set a blazingly fast keyboard repeat rate
 defaults write NSGlobalDomain KeyRepeat -int 0
 
+# Enable three finger drag
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+
+# global mouse tracking speed (1...5)
+defaults write NSGlobalDomain com.apple.mouse.scaling -float 3
+
+# global trackpad tracking speed (1...5)
+defaults write NSGlobalDomain com.apple.trackpad.scaling -int 3
+
+# Add bluetooth icon to menu
+open '/System/Library/CoreServices/Menu Extras/Bluetooth.menu'
+
 
 
 
@@ -66,15 +79,17 @@ sudo chflags nohidden /Volumes
 
 ###############################################################################
 # Dock, Dashboard, and hot corners                                            #
-###############################################################################
+###############################################################################om
 
 # Automatically hide and show the Dock
 defaults write com.apple.dock autohide -bool true
 
+# Set the icon size of Dock items to 35 pixels
+defaults write com.apple.dock tilesize -int 35
 
 
 
-###############################################################################
+###############################################om################################
 # Photos                                                                      #
 ###############################################################################
 
