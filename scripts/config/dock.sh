@@ -19,7 +19,6 @@ dockutil --add /Applications/Messages.app
 dockutil --add /Applications/Slack.app
 dockutil --add /Applications/Spotify.app
 dockutil --add /Applications/VLC.app
-dockutil --add /Applications/Transmission.app
 
 # dev
 dockutil --add /Applications/Sublime\ Text.app
