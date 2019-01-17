@@ -1,7 +1,7 @@
 #!/bin/sh
 brew install git
 brew install imagemagick
-brew install homebrew/versions/mysql56
+brew install mysql@5.7
 brew install python
 brew install rbenv
 brew install redis
