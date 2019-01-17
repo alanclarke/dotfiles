@@ -16,7 +16,6 @@ apps:
 - [x] spotify
 - [x] sublime-text
 - [x] torbrowser
-- [x] transmission
 - [x] virtualbox
 - [x] viscosity
 - [x] vlc
