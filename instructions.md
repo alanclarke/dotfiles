@@ -24,6 +24,12 @@ Primary language: **TypeScript**
 - For JIRA / Confluence use the atlassian mcp
 - For figma links use the figma mcp
 
+## Skills
+
+- When using a skill and hitting friction (wrong steps, missing context, ambiguity), fix the `SKILL.md` if the improvement is obvious
+- Keep skills concise: every line should earn its place — cut fluff, merge redundant steps, remove stale info
+- Prefer examples over lengthy explanations
+
 ## Git
 
 Never commit unless explicitly asked. Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): `<type>(scope): description`
