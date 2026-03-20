@@ -116,8 +116,11 @@ _wt_add() {
 
         while IFS= read -r -d '' src; do
           [[ -z "$src" || -n "${linked_paths[$src]}" ]] && continue
-          linked_paths[$src]=1
           rel="${src#$WT_REPO_SOURCE_DIR/}"
+          if git -C "$WT_REPO_SOURCE_DIR" ls-files --error-unmatch "$rel" >/dev/null 2>&1; then
+            continue
+          fi
+          linked_paths[$src]=1
           dest="$worktree_dir/$rel"
           mkdir -p "$(dirname "$dest")" || return 1
           ln -sfn "$src" "$dest" || return 1
