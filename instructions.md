@@ -8,6 +8,7 @@ Primary language: **TypeScript**
 - Prefer simplicity; remove complexity before adding it
 - Avoid duplication; extract reusable code when the pattern is clear
 - Prefer type inference; avoid `any` and `unknown`
+- Don't increase specificity; leverage defaults to the fullest
 
 ## Tests
 
