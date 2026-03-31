@@ -64,7 +64,7 @@ Add a new skill? Drop a folder in `skills/`, re-run the installer. 🎯
 Spins up git worktrees with automatic symlinks (think `node_modules`) and `pnpm install` — ready to code instantly. 🏎️
 
 ```sh
-wt add <branch>          # create worktree, symlink deps, install
+wt add <branch>          # pull source repo, create worktree, symlink deps, install
 wt rm [-d] [-f] <branch> # tear it down, optionally nuke the branch
 ```
 

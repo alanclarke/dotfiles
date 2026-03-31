@@ -58,11 +58,43 @@ _wt_resolve_context() {
   typeset -g WT_REPO_SOURCE_DIR="${repo_source_dir:-$developer_root/$repo}"
 }
 
+_wt_git() {
+  if [[ "$WT_REPO_HANDLE" == *.git ]]; then
+    git --git-dir="$WT_REPO_HANDLE" "$@"
+    return
+  fi
+
+  git -C "$WT_REPO_HANDLE" "$@"
+}
+
+_wt_refresh_source_head() {
+  local current_branch
+
+  current_branch="$(git -C "$WT_REPO_SOURCE_DIR" branch --show-current 2>/dev/null)"
+
+  if [[ -z "$current_branch" ]]; then
+    echo "error: expected $WT_REPO_SOURCE_DIR to be checked out on a branch"
+    return 1
+  fi
+
+  git -C "$WT_REPO_SOURCE_DIR" pull --ff-only >&2 || return 1
+
+  if [[ "$WT_REPO_HANDLE" == "$WT_REPO_SOURCE_DIR" ]]; then
+    print -r -- "HEAD"
+    return 0
+  fi
+
+  _wt_git fetch "$WT_REPO_SOURCE_DIR" "$current_branch" >&2 || return 1
+
+  print -r -- "FETCH_HEAD"
+}
+
 _wt_add() {
   local branch
   local developer_root="${DEVELOPER_ROOT:-$HOME/Developer}"
   local worktrees_root="${WORKTREES_ROOT:-$developer_root/worktrees}"
   local symlink_patterns_file="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/worktrees.symlinks"
+  local base_ref
   local worktree_dir
 
   if [[ "$1" == "git" && ( "$2" == "checkout" || "$2" == "switch" ) ]]; then
@@ -81,6 +113,7 @@ _wt_add() {
   fi
 
   _wt_resolve_context "$developer_root" "$worktrees_root" 1 || return 1
+  base_ref="$(_wt_refresh_source_head)" || return 1
 
   worktree_dir="$worktrees_root/$WT_REPO/$branch"
 
@@ -91,18 +124,10 @@ _wt_add() {
 
   mkdir -p "$worktrees_root/$WT_REPO" || return 1
 
-  if [[ "$WT_REPO_HANDLE" == *.git ]]; then
-    if git --git-dir="$WT_REPO_HANDLE" rev-parse --verify --quiet "$branch" >/dev/null; then
-      git --git-dir="$WT_REPO_HANDLE" worktree add "$worktree_dir" "$branch" || return 1
-    else
-      git --git-dir="$WT_REPO_HANDLE" worktree add "$worktree_dir" -b "$branch" || return 1
-    fi
+  if _wt_git rev-parse --verify --quiet "$branch" >/dev/null; then
+    _wt_git worktree add "$worktree_dir" "$branch" || return 1
   else
-    if git -C "$WT_REPO_HANDLE" rev-parse --verify --quiet "$branch" >/dev/null; then
-      git -C "$WT_REPO_HANDLE" worktree add "$worktree_dir" "$branch" || return 1
-    else
-      git -C "$WT_REPO_HANDLE" worktree add "$worktree_dir" -b "$branch" || return 1
-    fi
+    _wt_git worktree add "$worktree_dir" -b "$branch" "$base_ref" || return 1
   fi
 
   if [[ -d "$WT_REPO_SOURCE_DIR" ]]; then
@@ -195,26 +220,14 @@ _wt_rm() {
     return 1
   fi
 
-  if [[ "$WT_REPO_HANDLE" == *.git ]]; then
-    if [[ "$force" -eq 1 ]]; then
-      git --git-dir="$WT_REPO_HANDLE" worktree remove --force "$worktree_dir" || return 1
-    else
-      git --git-dir="$WT_REPO_HANDLE" worktree remove "$worktree_dir" || return 1
-    fi
+  if [[ "$force" -eq 1 ]]; then
+    _wt_git worktree remove --force "$worktree_dir" || return 1
   else
-    if [[ "$force" -eq 1 ]]; then
-      git -C "$WT_REPO_HANDLE" worktree remove --force "$worktree_dir" || return 1
-    else
-      git -C "$WT_REPO_HANDLE" worktree remove "$worktree_dir" || return 1
-    fi
+    _wt_git worktree remove "$worktree_dir" || return 1
   fi
 
   if [[ "$delete_branch" -eq 1 ]]; then
-    if [[ "$WT_REPO_HANDLE" == *.git ]]; then
-      git --git-dir="$WT_REPO_HANDLE" branch -d "$branch"
-    else
-      git -C "$WT_REPO_HANDLE" branch -d "$branch"
-    fi
+    _wt_git branch -d "$branch"
   fi
 
   echo "removed $worktree_dir"
