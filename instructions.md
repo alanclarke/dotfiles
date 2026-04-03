@@ -5,7 +5,7 @@ Primary language: **TypeScript**
 ## Code
 
 - Never comment inline; use clear, self-documenting code
-- Prefer simplicity; remove complexity before adding it
+- Prefer the simplest in-context solution; remove complexity instead of adding indirection, guards, helper files, or special-case paths unless they are clearly needed
 - Avoid duplication; extract reusable code when the pattern is clear
 - Prefer type inference; avoid `any` and `unknown`
 - Don't increase specificity; leverage defaults to the fullest
