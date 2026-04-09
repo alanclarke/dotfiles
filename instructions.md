@@ -20,7 +20,7 @@ Primary language: **TypeScript**
 
 - Use **pnpm** (not npm) for all node package commands
 - Use **Prettier** for code formatting
-- Before pushing or opening a PR, run local static analysis, linting, formatting, type-check etc.
+- After making code changes, run lint, type-check, and tests on the affected package(s) before considering a task done
 - GitHub CLI (`gh`) is installed and authenticated
 - For JIRA / Confluence use the atlassian mcp
 - For figma links use the figma mcp
@@ -30,6 +30,10 @@ Primary language: **TypeScript**
 - When using a skill and hitting friction (wrong steps, missing context, ambiguity), fix the `SKILL.md` if the improvement is obvious
 - Keep skills concise: every line should earn its place — cut fluff, merge redundant steps, remove stale info
 - Prefer examples over lengthy explanations
+
+## Communication
+
+- When the user asks "why", answer the question directly — don't assume it's rhetorical and skip to a fix
 
 ## Git
 
