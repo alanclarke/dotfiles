@@ -46,6 +46,7 @@ done
 echo "=== Claude Code ==="
 mkdir -p "$HOME/.claude/skills"
 link "$DOTFILES_DIR/instructions.md" "$HOME/.claude/CLAUDE.md"
+link "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
 
 for skill_dir in "$DOTFILES_DIR"/skills/*/; do
   skill="$(basename "$skill_dir")"
