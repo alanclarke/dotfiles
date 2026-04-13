@@ -6,6 +6,7 @@ Primary language: **TypeScript**
 
 - Never comment inline; use clear, self-documenting code
 - Prefer simplicity; remove complexity before adding it
+- Follow YAGNI: don't add features, options, or escape hatches speculatively — only build what is needed right now
 - Avoid duplication; extract reusable code when the pattern is clear
 - Prefer type inference; avoid `any` and `unknown`
 - Don't increase specificity; leverage defaults to the fullest
